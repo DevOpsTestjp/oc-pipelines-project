@@ -1,0 +1,39 @@
+apiVersion: tekton.dev/v1beta1 
+kind: Task 
+metadata: 
+  name: cleanup 
+spec: 
+  workspaces: 
+    - name: source 
+  steps: 
+    - name: remove-pycache 
+      image: alpine:latest 
+      script: | 
+        #!/bin/sh 
+        echo "Cleaning up Python cache files..." 
+        cd /workspace/source 
+        find . -type f -name "*.pyc" -delete 
+        echo "Cleanup completed" 
+--- 
+apiVersion: tekton.dev/v1beta1 
+kind: Task 
+metadata: 
+  name: nose-test 
+spec: 
+  workspaces: 
+    - name: source 
+  params: 
+    - name: test-path 
+      description: The path to the tests directory 
+      default: "tests" 
+  steps: 
+    - name: run-nose-tests 
+      image: python:3.11-slim 
+      script: | 
+        #!/bin/sh 
+        cd /workspace/source 
+        echo "Installing dependencies..." 
+        pip install nose flake8 
+        echo "Running nose tests..." 
+        nosetests $(params.test-path) --verbosity=2 
+        echo "Tests completed" 
