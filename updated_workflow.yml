@@ -32,5 +32,9 @@ jobs:
  
     # UNIT TESTS STEP with pytest 
     - name: Test with pytest 
+      run: pytest tests/ -v --tb=short 
+    # UNIT TESTS STEP with pytest 
+    - name: Test with pytest 
       run: | 
         PYTHONPATH=. pytest tests/ -v --tb=short 
+

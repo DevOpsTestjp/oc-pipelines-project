@@ -1,0 +1,4 @@
+    # UNIT TESTS STEP with pytest 
+    - name: Test with pytest 
+      run: | 
+        PYTHONPATH=. pytest tests/ -v --tb=short 
