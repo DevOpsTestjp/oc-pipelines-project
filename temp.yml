@@ -1,0 +1,3 @@
+    # UNIT TESTS STEP with pytest 
+    - name: Test with pytest 
+      run: pytest tests/ -v --tb=short 
